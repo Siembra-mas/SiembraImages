@@ -1,0 +1,163 @@
+ :root {
+     --verde-primario: #2d5a27;
+     --verde-claro: #4caf50;
+     --blanco-fondo: #f4f7f6;
+     --gris-texto: #333;
+ }
+
+ body {
+     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+     background-color: var(--blanco-fondo);
+     color: var(--gris-texto);
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     min-height: 100vh;
+     margin: 0;
+ }
+
+ .container {
+     background-color: white;
+     padding: 30px;
+     border-radius: 12px;
+     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+     width: 100%;
+     max-width: 400px;
+     border-top: 8px solid var(--verde-primario);
+ }
+
+ h2 {
+     color: var(--verde-primario);
+     text-align: center;
+     margin-bottom: 25px;
+ }
+
+ label {
+     display: block;
+     margin-bottom: 8px;
+     font-weight: bold;
+     color: var(--verde-primario);
+ }
+
+ select,
+ input[type="text"] {
+     width: 100%;
+     padding: 12px;
+     margin-bottom: 20px;
+     border: 1px solid #ddd;
+     border-radius: 6px;
+     box-sizing: border-box;
+     font-size: 14px;
+ }
+
+ /* Estilo personalizado para el botón de archivo */
+ .file-upload-wrapper {
+     position: relative;
+     margin-bottom: 25px;
+ }
+
+ .file-upload-btn {
+     display: block;
+     background-color: #e8f5e9;
+     color: var(--verde-primario);
+     border: 2px dashed var(--verde-claro);
+     padding: 15px;
+     text-align: center;
+     border-radius: 8px;
+     cursor: pointer;
+     font-weight: bold;
+     transition: all 0.3s ease;
+ }
+
+ .file-upload-btn:hover {
+     background-color: #c8e6c9;
+ }
+
+ input[type="file"] {
+     position: absolute;
+     left: 0;
+     top: 0;
+     opacity: 0;
+     width: 100%;
+     height: 100%;
+     cursor: pointer;
+ }
+
+ .submit-btn {
+     width: 100%;
+     background-color: var(--verde-claro);
+     color: white;
+     padding: 14px;
+     border: none;
+     border-radius: 6px;
+     font-size: 16px;
+     font-weight: bold;
+     cursor: pointer;
+     transition: background-color 0.3s ease;
+ }
+
+ .submit-btn:hover {
+     background-color: var(--verde-primario);
+ }
+
+ .file-name-display {
+     display: block;
+     margin-top: 5px;
+     font-size: 12px;
+     color: #666;
+     text-align: center;
+ }
+
+ .footer-info {
+     text-align: center;
+     font-size: 12px;
+     color: #888;
+     margin-top: 15px;
+ }
+
+ /* ... (tu código anterior de :root y body) ... */
+
+.button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+}
+
+.button {
+    display: block;
+    width: 100%; /* Para que ocupen todo el ancho del contenedor */
+    padding: 14px;
+    text-decoration: none;
+    text-align: center;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    box-sizing: border-box;
+    transition: background-color 0.3s ease, transform 0.2s;
+}
+
+.button:active {
+    transform: scale(0.98);
+}
+
+/* Botón de volver a subir (Verde claro) */
+.btn-again {
+    background-color: var(--verde-claro);
+    color: white;
+}
+
+.btn-again:hover {
+    background-color: var(--verde-primario);
+}
+
+/* Botón de salir (Un verde mucho más suave o grisáceo para no competir) */
+.btn-exit {
+    background-color: #e8f5e9;
+    color: var(--verde-primario);
+    border: 1px solid var(--verde-claro);
+}
+
+.btn-exit:hover {
+    background-color: #c8e6c9;
+}0

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SiembraVision - Subida de Plantas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilo.css') }}">
+</head>
+<body>
+
+<div class="container">
+    <h2> Sube tu foto</h2>
+    
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <!-- menu cultivos  -->
+        <label for="cultivo">Tipo de Cultivo</label>
+        <select name="cultivo" id="cultivo" required>
+            <option value="" disabled selected>Selecciona un cultivo</option>
+            <option value="tomate">Tomate</option>
+            <option value="papa">Papa</option>
+            <option value="maiz">Maíz</option>
+            <option value="limon">Limón</option>
+        </select>
+        <!-- menu enfermedades  -->
+        <label for="enfermedad">Enfermedad detectada</label>
+        <select name="enfermedad" id="enfermedad" required>
+            <option value="" disabled selected>Selecciona la enfermedad</option>
+            <option value="roya">Roya</option>
+            <option value="tizon_tardio">Tizón Tardío</option>
+            <option value="mildiu">Mildiu</option>
+            <option value="mancha_negra">Mancha Negra</option>
+            <option value="otra">Otra / No lo sé</option>
+        </select>
+
+        <label>Foto de la planta</label>
+        <div class="file-upload-wrapper">
+            <div class="file-upload-btn" id="custom-text"> Seleccionar imagen</div>
+            <input type="file" name="file" id="file" accept="image/*" required onchange="updateFileName()">
+            <span class="file-name-display" id="file-name">Ningún archivo seleccionado</span>
+        </div>
+
+        <button type="submit" class="submit-btn">Enviar al Laboratorio</button>
+    </form>
+
+    <div class="footer-info">
+        Siembra+ - 2026
+    </div>
+</div>
+
+<script>
+    function updateFileName() {
+        const input = document.getElementById('file');
+        const fileNameDisplay = document.getElementById('file-name');
+        if (input.files.length > 0) {
+            fileNameDisplay.textContent = "Seleccionado: " + input.files[0].name;
+        }
+    }
+</script>
+
+</body>
+</html>

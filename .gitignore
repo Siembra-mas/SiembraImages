@@ -1,0 +1,16 @@
+# Entorno virtual (¡Súper importante!)
+venv/
+env/
+__pycache__/
+*.pyc
+
+# Archivos de configuración y llaves de Google Cloud
+*.json
+.env
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+uploads/*
+!uploads/.gitkeep
