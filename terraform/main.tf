@@ -1,3 +1,7 @@
+variable "aws_account_id" {
+  type = string
+}
+
 # Solo el Bucket
 resource "aws_s3_bucket" "siembrasnap_storage" {
   bucket = "siembrasnap-nando-2026"
@@ -20,7 +24,7 @@ resource "aws_apprunner_service" "siembrasnap_service" {
 
   source_configuration {
     image_repository {
-      image_identifier      = "959284555099.dkr.ecr.us-east-1.amazonaws.com/siembrasnap-repo:latest"
+      image_identifier = "${var.aws_account_id}.dkr.ecr.us-east-1.amazonaws.com/siembrasnap-repo:latest"
       image_repository_type = "ECR"
       image_configuration {
         port = "5000"

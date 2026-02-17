@@ -13,6 +13,7 @@ app = Flask(__name__)
 
 # Configuración AWS
 S3_BUCKET = "siembrasnap-nando-2026"
+account_id = os.getenv('AWS_ACCOUNT_ID')
 ACCESS_KEY = os.getenv('AWS_ACCESS_KEY_ID')
 SECRET_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 REGION = os.getenv('AWS_REGION', 'us-east-1')
