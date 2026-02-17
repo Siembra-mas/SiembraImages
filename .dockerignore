@@ -1,0 +1,8 @@
+venv/
+terraform/
+.terraform/
+*.tfstate*
+__pycache__/
+.env
+uploads/
+.git/
