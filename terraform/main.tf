@@ -18,27 +18,25 @@ resource "aws_s3_bucket_public_access_block" "block_public" {
   restrict_public_buckets = true
 }
 
-# App Service
-resource "aws_apprunner_service" "siembrasnap_service" {
-  service_name = "siembrasnap-service"
+# Creamos el almacén de usuarios (User Pool)
+resource "aws_cognito_user_pool" "siembra_users" {
+  name = "siembrasnap-pool"
 
-  source_configuration {
-    image_repository {
-      image_identifier = "${var.aws_account_id}.dkr.ecr.us-east-1.amazonaws.com/siembrasnap-repo:latest"
-      image_repository_type = "ECR"
-      image_configuration {
-        port = "5000"
-        runtime_environment_variables = {
-          "AWS_REGION" = "us-east-1"
-          # Nota: Las llaves secretas es mejor ponerlas en el dashboard por seguridad
-        }
-      }
-    }
-    auto_deployments_enabled = true
-  }
+  # El correo será el identificador principal
+  username_attributes = ["email"]
+  auto_verified_attributes = ["email"]
 
-  instance_configuration {
-    cpu    = "0.25 vCPU"
-    memory = "0.5 GB"
+  password_policy {
+    minimum_length = 8
+    require_numbers = true
+    require_symbols = false
   }
+}
+
+# Creamos el "Cliente" para que tu App de Render pueda hablar con Cognito
+resource "aws_cognito_user_pool_client" "client" {
+  name         = "siembrasnap-app-client"
+  user_pool_id = aws_cognito_user_pool.siembra_users.id
+  
+  explicit_auth_flows = ["USER_PASSWORD_AUTH"]
 }

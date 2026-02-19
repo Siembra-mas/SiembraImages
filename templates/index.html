@@ -11,36 +11,51 @@
 <div class="container">
     <h2> Sube tu foto</h2>
     
-    <form action="/upload" method="post" enctype="multipart/form-data">
-        <!-- menu cultivos  -->
-        <label for="cultivo">Tipo de Cultivo</label>
+<form action="/upload" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="cultivo">Cultivo</label>
         <select name="cultivo" id="cultivo" required>
             <option value="" disabled selected>Selecciona un cultivo</option>
             <option value="tomate">Tomate</option>
-            <option value="papa">Papa</option>
             <option value="maiz">Maíz</option>
-            <option value="limon">Limón</option>
+            <option value="papa">Papa</option>
         </select>
-        <!-- menu enfermedades  -->
-        <label for="enfermedad">Enfermedad detectada</label>
-        <select name="enfermedad" id="enfermedad" required>
-            <option value="" disabled selected>Selecciona la enfermedad</option>
-            <option value="roya">Roya</option>
+    </div>
+
+    <div class="form-group">
+        <label for="estado">Estado de Salud</label>
+        <select name="estado" id="estado" required>
+            <option value="" disabled selected>¿Qué observas?</option>
+            <option value="sano">Sano</option>
             <option value="tizon_tardio">Tizón Tardío</option>
-            <option value="mildiu">Mildiu</option>
-            <option value="mancha_negra">Mancha Negra</option>
-            <option value="otra">Otra / No lo sé</option>
+            <option value="roya">Roya</option>
+            <option value="deficiencia_nutricional">Deficiencia Nutricional</option>
         </select>
+    </div>
 
-        <label>Foto de la planta</label>
-        <div class="file-upload-wrapper">
-            <div class="file-upload-btn" id="custom-text"> Seleccionar imagen</div>
-            <input type="file" name="file" id="file" accept="image/*" required onchange="updateFileName()">
-            <span class="file-name-display" id="file-name">Ningún archivo seleccionado</span>
-        </div>
+    <div class="drop-zone" id="drop-zone">
+    <span class="drop-zone__prompt" id="file-info">Arrastra la imagen del cultivo o haz clic</span>
+    <input type="file" name="file" class="drop-zone__input" id="file-input" multiple required>
+</div>
 
-        <button type="submit" class="submit-btn">Enviar al Laboratorio</button>
-    </form>
+<script>
+    const fileInput = document.getElementById('file-input');
+    const fileInfo = document.getElementById('file-info');
+
+    fileInput.addEventListener('change', () => {
+        const files = fileInput.files;
+        if (files.length === 1) {
+            fileInfo.innerText = `Seleccionado: ${files[0].name}`;
+        } else if (files.length > 1) {
+            fileInfo.innerText = `${files.length} archivos seleccionados`;
+        } else {
+            fileInfo.innerText = "Arrastra la imagen del cultivo o haz clic";
+        }
+    });
+</script>
+
+    <button type="submit" class="submit-btn">Enviar a Siembra+</button>
+</form>
 
     <div class="footer-info">
         Siembra+ - 2026

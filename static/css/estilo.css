@@ -1,122 +1,144 @@
- :root {
-     --verde-primario: #2d5a27;
-     --verde-claro: #4caf50;
-     --blanco-fondo: #f4f7f6;
-     --gris-texto: #333;
- }
+/* 1. Variables y Reset */
+:root {
+    --verde-primario: #2d5a27;
+    --verde-claro: #4caf50;
+    --blanco-fondo: #f4f7f6;
+    --gris-texto: #333;
+    --gris-suave: #888;
+    --rojo-error: #cc0000;
+}
 
- body {
-     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-     background-color: var(--blanco-fondo);
-     color: var(--gris-texto);
-     display: flex;
-     justify-content: center;
-     align-items: center;
-     min-height: 100vh;
-     margin: 0;
- }
+* {
+    box-sizing: border-box;
+}
 
- .container {
-     background-color: white;
-     padding: 30px;
-     border-radius: 12px;
-     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-     width: 100%;
-     max-width: 400px;
-     border-top: 8px solid var(--verde-primario);
- }
 
- h2 {
-     color: var(--verde-primario);
-     text-align: center;
-     margin-bottom: 25px;
- }
+.img-logo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 200px; /* Prueba subiendo este valor si se ve muy chico */
+    height: auto;
+    object-fit: contain; /* Esto asegura que no se deforme */
+}
 
- label {
-     display: block;
-     margin-bottom: 8px;
-     font-weight: bold;
-     color: var(--verde-primario);
- }
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--blanco-fondo);
+    color: var(--gris-texto);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
 
- select,
- input[type="text"] {
-     width: 100%;
-     padding: 12px;
-     margin-bottom: 20px;
-     border: 1px solid #ddd;
-     border-radius: 6px;
-     box-sizing: border-box;
-     font-size: 14px;
- }
+/* 2. Contenedor Principal */
+.container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    border-top: 8px solid var(--verde-primario);
+    text-align: center;
+}
 
- /* Estilo personalizado para el botón de archivo */
- .file-upload-wrapper {
-     position: relative;
-     margin-bottom: 25px;
- }
+/* 3. Elementos de Identidad */
+.img-logo {
+    max-width: 180px;
+    height: auto;
+    margin-bottom: 10px;
+}
 
- .file-upload-btn {
-     display: block;
-     background-color: #e8f5e9;
-     color: var(--verde-primario);
-     border: 2px dashed var(--verde-claro);
-     padding: 15px;
-     text-align: center;
-     border-radius: 8px;
-     cursor: pointer;
-     font-weight: bold;
-     transition: all 0.3s ease;
- }
+h2 {
+    color: var(--verde-primario);
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+}
 
- .file-upload-btn:hover {
-     background-color: #c8e6c9;
- }
+.tagline {
+    font-size: 0.9rem;
+    color: var(--gris-suave);
+    margin-bottom: 25px;
+}
 
- input[type="file"] {
-     position: absolute;
-     left: 0;
-     top: 0;
-     opacity: 0;
-     width: 100%;
-     height: 100%;
-     cursor: pointer;
- }
+/* 4. Formularios e Inputs */
+.form-group {
+    text-align: left;
+    margin-bottom: 1.2rem;
+}
 
- .submit-btn {
-     width: 100%;
-     background-color: var(--verde-claro);
-     color: white;
-     padding: 14px;
-     border: none;
-     border-radius: 6px;
-     font-size: 16px;
-     font-weight: bold;
-     cursor: pointer;
-     transition: background-color 0.3s ease;
- }
+.form-group label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--verde-primario);
+}
 
- .submit-btn:hover {
-     background-color: var(--verde-primario);
- }
+select,
+input[type="email"],
+input[type="password"],
+input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    font-family: inherit;
+    color: var(--gris-texto);
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.3s;
+}
 
- .file-name-display {
-     display: block;
-     margin-top: 5px;
-     font-size: 12px;
-     color: #666;
-     text-align: center;
- }
+select:focus,
+input:focus {
+    border-color: var(--verde-claro);
+}
 
- .footer-info {
-     text-align: center;
-     font-size: 12px;
-     color: #888;
-     margin-top: 15px;
- }
+.hint-text {
+    display: block;
+    font-size: 11px;
+    color: var(--gris-suave);
+    margin-top: 4px;
+}
 
- /* ... (tu código anterior de :root y body) ... */
+/* 5. Zona de Carga (S3 Drop Zone) */
+.drop-zone {
+    position: relative;
+    border: 2px dashed var(--verde-claro);
+    background-color: #e8f5e9;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
 
+.drop-zone:hover {
+    background-color: #c8e6c9;
+}
+
+.drop-zone__prompt {
+    font-weight: bold;
+    color: var(--verde-primario);
+    font-size: 14px;
+}
+
+.drop-zone__input {
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+/* 6. Botones y Enlaces */
 .button-group {
     display: flex;
     flex-direction: column;
@@ -124,34 +146,29 @@
     width: 100%;
 }
 
-.button {
+.button, .submit-btn {
     display: block;
-    width: 100%; /* Para que ocupen todo el ancho del contenedor */
+    width: 100%;
     padding: 14px;
-    text-decoration: none;
-    text-align: center;
+    border: none;
     border-radius: 6px;
     font-size: 16px;
     font-weight: bold;
-    box-sizing: border-box;
-    transition: background-color 0.3s ease, transform 0.2s;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-.button:active {
-    transform: scale(0.98);
-}
-
-/* Botón de volver a subir (Verde claro) */
-.btn-again {
+.submit-btn, .btn-again {
     background-color: var(--verde-claro);
     color: white;
 }
 
-.btn-again:hover {
+.submit-btn:hover, .btn-again:hover {
     background-color: var(--verde-primario);
 }
 
-/* Botón de salir (Un verde mucho más suave o grisáceo para no competir) */
 .btn-exit {
     background-color: #e8f5e9;
     color: var(--verde-primario);
@@ -160,4 +177,69 @@
 
 .btn-exit:hover {
     background-color: #c8e6c9;
-}0
+}
+
+.footer-links a {
+    color: var(--verde-primario);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+}
+
+/* 7. Alertas y Mensajes */
+.error-msg {
+    background-color: #fce4e4;
+    color: var(--rojo-error);
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    margin-bottom: 15px;
+    border: 1px solid #f5c6cb;
+}
+
+.footer-info {
+    font-size: 12px;
+    color: var(--gris-suave);
+    margin-top: 15px;
+}
+
+.btn-logout {
+    text-decoration: none;
+    color: #888;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.btn-logout:hover {
+    background-color: #fce4e4;
+    color: var(--rojo-error);
+    border-color: #f5c6cb;
+}
+
+/* Botón de cerrar sesión pequeño y elegante */
+.btn-logout-tiny {
+    display: inline-block; /* Importante: para que no ocupe todo el ancho */
+    padding: 6px 12px;
+    background-color: transparent;
+    color: #888;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.75rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.btn-logout-tiny:hover {
+    background-color: #fff0f0; /* Un rojo muy tenue al pasar el mouse */
+    color: var(--rojo-error);
+    border-color: #f5c6cb;
+}

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificar Cuenta - Siembra+</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilo.css') }}">
+</head>
+<body>
+    <div class="container">
+        <img src="{{ url_for('static', filename='img/siembra-logo.png') }}" alt="Siembra+" class="img-logo">
+        
+        <h2>Verificar Cuenta</h2>
+        <p class="tagline">Ingresa el código que llegó a tu correo para activar tu acceso.</p>
+
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            {% for message in messages %}
+              <div class="error-msg">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        <form action="/confirm" method="post">
+            <div class="form-group">
+                <label for="email">Confirmar Correo</label>
+                <input type="email" name="email" id="email" placeholder="tu@correo.com" required>
+            </div>
+
+            <div class="form-group">
+                <label for="code">Código de Verificación</label>
+                <input type="text" name="code" id="code" placeholder="Ej: 123456" required 
+                       style="text-align: center; letter-spacing: 5px; font-size: 1.2rem; font-weight: bold;">
+            </div>
+
+            <button type="submit" class="submit-btn">Activar Cuenta</button>
+        </form>
+
+        <div class="footer-links" style="margin-top: 20px;">
+            <p class="footer-info">
+                <a href="{{ url_for('signup') }}">¿No te llegó el código? Regístrate de nuevo</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>
