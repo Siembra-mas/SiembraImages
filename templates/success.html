@@ -9,13 +9,17 @@
 <body>
 
 <div class="container">
-    <div class="check-circle">✓</div>
-    <h1>¡Todo listo!</h1>
-    <p>La fotografía ha sido procesada, optimizada y clasificada correctamente en nuestro repositorio agrícola.</p>
+    <img src="{{ url_for('static', filename='img/siembra-logo.png') }}" class="img-logo">
     
-    <div class="button-group">
-        <a href="/" class="button btn-again">Subir otra fotografía</a>
-        <a href="https://siembra-mas.github.io/index.html" class="button btn-exit">Finalizar y salir</a>
+    <h2>¡Envío Exitoso!</h2>
+    <p class="tagline">Se han procesado y subido {{ cantidad }} imágenes correctamente.</p>
+    
+
+
+    <div class="button-group" style="margin-top: 25px;">
+        <a href="{{ url_for('main.dashboard') }}" class="button btn-again">Subir otra fotografía</a>
+        
+        <a href="{{ url_for('auth.logout') }}" class="button btn-exit">Cerrar Sesión</a>
     </div>
 </div>
 

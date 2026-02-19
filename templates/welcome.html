@@ -12,10 +12,10 @@
         <h2>Bienvenido a Siembra+</h2>
         <p class="tagline">Análisis inteligente para tus cultivos</p>
 
-        <div class="button-group">
-            <a href="{{ url_for('login') }}" class="button btn-again">Iniciar Sesión</a>
-            <a href="{{ url_for('signup') }}" class="button btn-exit">Registrarse</a>
-        </div>
+<div class="button-group">
+    <a href="{{ url_for('auth.login') }}" class="button btn-again">Iniciar Sesión</a>
+    <a href="{{ url_for('auth.signup') }}" class="button btn-exit">Registrarse</a>
+</div>
 
         <p class="footer-info">Potenciado por IA y AWS Cloud</p>
     </div>
