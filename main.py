@@ -9,7 +9,7 @@ from auth import login_required             # Importas el decorador que creamos 
 main_bp = Blueprint('main', __name__)
 
 # --- CONFIGURACIÓN AWS ---
-S3_BUCKET = os.getenv('AWS_S3_BUCKET', "siembrasnap-nando-2026")
+S3_BUCKET = os.getenv('AWS_S3_BUCKET', "siembrasnap-prod-2026")
 ACCESS_KEY = os.getenv('AWS_ACCESS_KEY_ID')
 SECRET_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 REGION = os.getenv('AWS_REGION', 'us-east-1')
