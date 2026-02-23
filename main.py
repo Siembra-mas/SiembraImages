@@ -45,9 +45,14 @@ def upload_file():
     cultivo = request.form.get('cultivo', 'general')
     estado = request.form.get('estado', 'desconocido')
     
-    usuario = session.get('user', 'anonimo').split('@')[0]
+    # --- ARREGLO DE SEGURIDAD ---
+    user_val = session.get('user')
+    if user_val and '@' in user_val:
+        usuario = user_val.split('@')[0]
+    else:
+        usuario = 'usuario_desconocido'
+    # ----------------------------
 
-    # 1. Validación inicial: ¿Vino algo en la petición?
     if not files or files[0].filename == '':
         flash("No seleccionaste ningún archivo.")
         return redirect(url_for('main.dashboard'))
@@ -56,9 +61,7 @@ def upload_file():
     if not os.path.exists('uploads'): 
         os.makedirs('uploads')
 
-    # 2. Procesamiento real
     for file in files:
-        # Solo procesamos si la extensión es permitida
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -76,8 +79,68 @@ def upload_file():
                 exitos += 1
             except Exception as e:
                 print(f"Error procesando archivo {filename}: {e}")
-        else:
-            print(f"Archivo omitido por extensión no válida: {file.filename}")
 
-    # 3. Respuesta final (esto es lo que recibe el AJAX para mostrar success.html)
     return render_template('success.html', cantidad=exitos, ruta=f"{usuario}/{cultivo}/{estado}/")
+
+@main_bp.route('/galeria')
+@login_required
+def galeria():
+    # --- ARREGLO DE SEGURIDAD ---
+    user_val = session.get('user')
+    if user_val and '@' in user_val:
+        usuario_id = user_val.split('@')[0]
+    else:
+        usuario_id = 'usuario_desconocido'
+    # ----------------------------
+
+    es_admin = session.get('is_admin', False) 
+    prefijo_busqueda = "" if es_admin else f"{usuario_id}/"
+
+    try:
+        response = s3_client.list_objects_v2(
+            Bucket=S3_BUCKET,
+            Prefix=prefijo_busqueda
+        )
+
+        imagenes = []
+        if 'Contents' in response:
+            for obj in response['Contents']:
+                url = s3_client.generate_presigned_url(
+                    'get_object',
+                    Params={'Bucket': S3_BUCKET, 'Key': obj['Key']},
+                    ExpiresIn=3600
+                )
+                imagenes.append({
+                    'url': url,
+                    'key': obj['Key'],
+                    'fecha': obj['LastModified']
+                })
+        
+        if imagenes:
+            imagenes = sorted(imagenes, key=lambda x: x['fecha'], reverse=True)
+
+        # --- LÓGICA DE AGRUPAMIENTO PARA EL ADMIN ---
+        imagenes_agrupadas = {}
+        if es_admin:
+            for img in imagenes:
+                # Extraemos el nombre del usuario (el primer prefijo antes del '/')
+                # Si la imagen está en la raíz, usamos 'General'
+                partes = img['key'].split('/')
+                usuario = partes[0] if len(partes) > 1 else "General"
+                
+                if usuario not in imagenes_agrupadas:
+                    imagenes_agrupadas[usuario] = []
+                imagenes_agrupadas[usuario].append(img)
+
+        # Enviamos tanto la lista plana como el diccionario agrupado
+        return render_template(
+            'galeria.html', 
+            imagenes=imagenes, 
+            imagenes_agrupadas=imagenes_agrupadas, 
+            admin=es_admin
+        )
+
+    except Exception as e:
+        print(f"Error listando S3: {e}")
+        flash("Error al cargar la galería.")
+        return redirect(url_for('main.dashboard'))

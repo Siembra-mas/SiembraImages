@@ -4,7 +4,7 @@ variable "aws_account_id" {
 
 # Solo el Bucket
 resource "aws_s3_bucket" "siembrasnap_storage" {
-  bucket = "siembrasnap-nando-2026"
+  bucket = "siembrasnap-prod-2026"
   force_destroy = true 
 }
 
@@ -39,4 +39,27 @@ resource "aws_cognito_user_pool_client" "client" {
   user_pool_id = aws_cognito_user_pool.siembra_users.id
   
   explicit_auth_flows = ["USER_PASSWORD_AUTH"]
+}
+
+# 1. Definimos el grupo de administradores
+resource "aws_cognito_user_group" "admins" {
+  name         = "Admins"
+  user_pool_id = aws_cognito_user_pool.siembra_users.id
+  description  = "Grupo con permisos para ver todas las carpetas de S3"
+  precedence   = 1
+}
+
+# -----------------------
+output "cognito_user_pool_id" {
+  value       = aws_cognito_user_pool.siembra_users.id
+  description = "ID para la variable COGNITO_USER_POOL_ID en Render"
+}
+
+output "cognito_app_client_id" {
+  value       = aws_cognito_user_pool_client.client.id
+  description = "ID para la variable COGNITO_APP_CLIENT_ID en Render"
+}
+
+output "s3_bucket_name" {
+  value = aws_s3_bucket.siembrasnap_storage.bucket
 }

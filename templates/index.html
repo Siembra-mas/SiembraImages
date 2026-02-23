@@ -6,12 +6,18 @@
     <title>Siembra+ - Panel de Monitoreo</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/estilo.css') }}">
 </head>
-<body>
+<body class="pantalla-centrada">
 
 <div class="container">
     <div class="header-actions">
-        <a href="{{ url_for('auth.logout') }}" class="btn-logout-tiny">Cerrar Sesión</a>
-    </div>
+    {% if session['is_admin'] %}
+        <span class="badge-admin"> Admin</span>
+    {% endif %}
+    
+    <a href="{{ url_for('main.galeria') }}" class="btn-gallery-tiny">Ver Mis Capturas</a>
+    
+    <a href="{{ url_for('auth.logout') }}" class="btn-logout-tiny">Cerrar Sesión</a>
+</div>
 
     <img src="{{ url_for('static', filename='img/siembra-logo.png') }}" alt="Siembra+" class="img-logo-dashboard">
 

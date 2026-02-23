@@ -12,25 +12,31 @@
     box-sizing: border-box;
 }
 
+/* --- CORRECCIÓN DE ARQUITECTURA CSS --- */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--blanco-fondo);
+    color: var(--gris-texto);
+    min-height: 100vh;
+    margin: 0;
+    /* Se eliminó el Flexbox global para no romper la galería */
+}
+
+/* Nueva clase dedicada solo para centrar Login, Registro y Formularios aislados */
+.pantalla-centrada {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/* -------------------------------------- */
 
 .img-logo {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    max-width: 200px; /* Prueba subiendo este valor si se ve muy chico */
+    max-width: 200px;
     height: auto;
-    object-fit: contain; /* Esto asegura que no se deforme */
-}
-
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: var(--blanco-fondo);
-    color: var(--gris-texto);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
+    object-fit: contain;
 }
 
 /* 2. Contenedor Principal */
@@ -46,12 +52,6 @@ body {
 }
 
 /* 3. Elementos de Identidad */
-.img-logo {
-    max-width: 180px;
-    height: auto;
-    margin-bottom: 10px;
-}
-
 h2 {
     color: var(--verde-primario);
     margin-bottom: 10px;
@@ -224,9 +224,8 @@ input:focus {
     border-color: #f5c6cb;
 }
 
-/* Botón de cerrar sesión pequeño y elegante */
 .btn-logout-tiny {
-    display: inline-block; /* Importante: para que no ocupe todo el ancho */
+    display: inline-block;
     padding: 6px 12px;
     background-color: transparent;
     color: #888;
@@ -239,7 +238,7 @@ input:focus {
 }
 
 .btn-logout-tiny:hover {
-    background-color: #fff0f0; /* Un rojo muy tenue al pasar el mouse */
+    background-color: #fff0f0;
     color: var(--rojo-error);
     border-color: #f5c6cb;
 }
@@ -258,9 +257,8 @@ input:focus {
 }
 
 /* --- 9. Barra de Progreso de Carga --- */
-
 .progress-wrapper {
-    display: none; /* Se activa mediante JavaScript al enviar el formulario */
+    display: none;
     margin: 20px 0;
     text-align: center;
 }
@@ -295,9 +293,40 @@ input:focus {
     color: var(--gris-suave);
 }
 
-/* Estado deshabilitado para el botón durante la carga */
 .submit-btn:disabled {
     background-color: #a5d6a7;
     cursor: not-allowed;
     opacity: 0.8;
+}
+
+.header-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.badge-admin {
+    background-color: #ffd700;
+    color: #333;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.btn-gallery-tiny {
+    text-decoration: none;
+    background-color: #4CAF50;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    transition: 0.3s;
+}
+
+.btn-gallery-tiny:hover {
+    background-color: #45a049;
 }
