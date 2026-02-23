@@ -1,59 +1,89 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container">
-    <h2 class="mb-4" style="color: #1a4731; font-weight: bold;">Galería Siembra+</h2>
+<div class="container-fluid px-4 mt-4" style="max-width: 1400px; margin: 0 auto; background: transparent !important; box-shadow: none !important;">
+    
+    <div class="d-flex justify-content-between align-items-center mb-4 pb-2" style="border-bottom: 2px solid #1e2b21;">
+        <h2 style="color: #1e2b21; font-weight: bold; margin: 0;">Galería Siembra+</h2>
+        {% if admin %}
+        <span class="badge bg-primary">Modo Admin</span>
+        {% endif %}
+    </div>
     
     {% if admin %}
-        <div class="alert alert-info border-0 shadow-sm" style="background-color: #e3f2fd; color: #0d47a1;">
-            <strong>Vista de Administrador:</strong> Gestionando capturas de toda la red estatal.
+        <div class="alert alert-info border-0 shadow-sm mb-4">
+            <strong>Vista de Administrador:</strong> Selecciona un usuario para desplegar su historial de capturas.
         </div>
         
-        {# --- VISTA DE ADMINISTRADOR: AGRUPADO POR USUARIO --- #}
-        {% for usuario, fotos in imagenes_agrupadas.items() %}
-            <div class="card mb-5 border-0 shadow-sm">
-                <div class="card-header text-white" style="background-color: #1a4731;">
-                    <h5 class="mb-0">Usuario: {{ usuario }} <span class="badge bg-light text-dark ms-2">{{ fotos|length }} fotos</span></h5>
-                </div>
-                <div class="card-body bg-white">
-                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px;">
-                        {% for img in fotos %}
-                            <div style="border: 1px solid #eee; border-radius: 12px; overflow: hidden; background: #fff; transition: 0.3s;">
-                                <img src="{{ img.url }}" alt="Captura" style="width: 100%; height: 160px; object-fit: cover;">
-                                <div style="padding: 12px;">
-                                    <p style="font-size: 12px; color: #555; margin-bottom: 5px;">
-                                        <strong>Archivo:</strong> {{ img.key.split('/')[-1] }}
-                                    </p>
-                                    <small class="text-muted d-block">{{ img.fecha.strftime('%d/%m/%Y %H:%M') }}</small>
-                                </div>
+        {# --- ACORDEÓN DE USUARIOS PARA ADMIN --- #}
+        <div class="accordion shadow-sm" id="accordionUsuarios">
+            {% for usuario, fotos in imagenes_agrupadas.items() %}
+                <div class="accordion-item mb-3 border-0 shadow-sm" style="border-radius: 12px !important; overflow: hidden;">
+                    
+                    <h2 class="accordion-header" id="heading-{{ loop.index }}">
+                        <button class="accordion-button collapsed fw-bold d-flex justify-content-between align-items-center" 
+                                type="button" 
+                                data-bs-toggle="collapse" 
+                                data-bs-target="#collapse-{{ loop.index }}" 
+                                aria-expanded="false" 
+                                aria-controls="collapse-{{ loop.index }}"
+                                style="background-color: #1e2b21; color: white; padding: 20px;">
+                            <div class="w-100 d-flex justify-content-between align-items-center me-3">
+                                <span><i class="bi bi-person-circle me-2"></i>USUARIO: {{ usuario|upper }}</span>
+                                <span class="badge rounded-pill bg-light text-dark">{{ fotos|length }} fotos</span>
                             </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        {% else %}
-            <div class="alert alert-warning text-center">No hay imágenes disponibles en el bucket S3.</div>
-        {% endfor %}
+                        </button>
+                    </h2>
 
-    {% else %}
-        {# --- VISTA DE USUARIO NORMAL: SOLO SUS FOTOS --- #}
-        <p class="text-muted">Viendo tus capturas personales de cultivo.</p>
-        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px;">
-            {% for img in imagenes %}
-                <div style="border: 1px solid #ddd; border-radius: 12px; overflow: hidden; background: #fff;">
-                    <img src="{{ img.url }}" alt="Mi Siembra" style="width: 100%; height: 160px; object-fit: cover;">
-                    <div style="padding: 12px;">
-                        <small class="text-muted">{{ img.fecha.strftime('%d/%m/%Y %H:%M') }}</small>
+                    <div id="collapse-{{ loop.index }}" class="accordion-collapse collapse" 
+                         aria-labelledby="heading-{{ loop.index }}" 
+                         data-bs-parent="#accordionUsuarios">
+                        
+                        <div class="accordion-body" style="background-color: #f8f9fa; padding: 25px;">
+                            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px;">
+                                {% for img in fotos %}
+                                    <div class="foto-card" style="border: 1px solid #ddd; border-radius: 10px; overflow: hidden; background: #fff; transition: 0.3s;">
+                                        <a href="{{ img.url }}" target="_blank">
+                                            <img src="{{ img.url }}" alt="Captura" style="width: 100%; height: 140px; object-fit: cover;">
+                                        </a>
+                                        <div class="p-2 text-center" style="border-top: 1px solid #eee;">
+                                            <small class="text-muted fw-bold" style="font-size: 10px;">
+                                                {{ img.fecha.strftime('%d/%m/%Y - %H:%M') }}
+                                            </small>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
                     </div>
                 </div>
             {% else %}
-                <div class="alert alert-warning">Aún no has subido capturas al sistema.</div>
+                 <div class="alert alert-warning text-center fw-bold">No hay imágenes disponibles para auditar.</div>
+            {% endfor %}
+        </div>
+
+    {% else %}
+        {# --- VISTA DE USUARIO NORMAL (MANTIENE EL DISEÑO ANTERIOR) --- #}
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px;">
+            {% for img in imagenes %}
+                <div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+                    <img src="{{ img.url }}" alt="Mi Siembra" style="width: 100%; height: 200px; object-fit: cover;">
+                    <div class="p-3">
+                        <small class="text-muted fw-bold">{{ img.fecha.strftime('%d/%m/%Y') }}</small>
+                        <br>
+                        <small class="text-muted">{{ img.fecha.strftime('%H:%M hrs') }}</small>
+                    </div>
+                </div>
+            {% else %}
+                <div class="alert alert-warning col-12 text-center">
+                    Aún no has subido capturas al sistema.
+                </div>
             {% endfor %}
         </div>
     {% endif %}
 
     <div class="mt-5 mb-5 text-center">
-        <a href="{{ url_for('main.dashboard') }}" class="btn fw-bold text-white px-4" style="background-color: #1a4731;">Volver al panel principal</a>
+        <a href="{{ url_for('main.dashboard') }}" class="btn text-white px-4" style="background-color: #1e2b21; font-weight: bold; border-radius: 8px;">Volver al Dashboard</a>
     </div>
 </div>
 {% endblock %}

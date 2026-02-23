@@ -4,20 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Siembra+ Dashboard</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/LOGO SIEMBRA+.svg') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilo.css') }}">
+    
+    <style>
+        /* Ajustes finos para la barra de navegación */
+        .navbar-brand img { transition: transform 0.3s ease; }
+        .navbar-brand:hover img { transform: scale(1.05); }
+        .nav-link { transition: color 0.2s ease; font-weight: 500; }
+        .nav-link:hover { color: #4caf50 !important; }
+    </style>
 </head>
 <body class="bg-light">
 
-    <nav class="navbar navbar-expand-lg navbar-dark mb-4" style="background-color: #1a4731;">
-        <div class="container">
-            <a class="navbar-brand fw-bold" href="{{ url_for('main.dashboard') }}">
-                <img src="{{ url_for('static', filename='img/siembra-logo.svg') }}" alt="Siembra+" style="height: 40px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
-                <span style="display:none;">Siembra+</span>
+    {% block video_fondo %}
+    {% endblock %}
+
+    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm" style="background-color: #1e2b21; padding: 10px 0;">
+        <div class="container-fluid px-4">
+            
+            <a class="navbar-brand d-flex align-items-center" href="{{ url_for('main.dashboard') }}">
+                <img src="{{ url_for('static', filename='img/siembra-logo.svg') }}" alt="Siembra+" style="height: 35px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+                <span class="text-white fw-bold ms-2" style="font-size: 1.2rem; display:none;">Siembra+</span>
             </a>
-            <div class="d-flex">
-                <a class="nav-link text-white me-3 fw-bold" href="{{ url_for('main.dashboard') }}" style="background-color: #0f2e1f; padding: 5px 15px; border-radius: 5px;">Dashboard</a>
-                <a class="nav-link text-white me-3 fw-bold" href="{{ url_for('main.galeria') }}" style="background-color: #0f2e1f; padding: 5px 15px; border-radius: 5px;">Galería</a>
-                <a class="nav-link text-white fw-bold" href="{{ url_for('auth.logout') }}" style="background-color: #8b0000; padding: 5px 15px; border-radius: 5px;">Salir</a>
+
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center gap-3">
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{{ url_for('main.dashboard') }}">INICIO</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-danger" href="{{ url_for('auth.logout') }}" style="color: #ff8a80 !important;">SALIR</a>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>
@@ -27,5 +51,6 @@
         {% endblock %}
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

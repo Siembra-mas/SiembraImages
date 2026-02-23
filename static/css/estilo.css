@@ -330,3 +330,41 @@ input:focus {
 .btn-gallery-tiny:hover {
     background-color: #45a049;
 }
+
+/* --- FONDO DE VIDEO Y GLASSMORPHISM --- */
+.video-fondo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: -1000; /* Lo mandamos al fondo de la arquitectura */
+    object-fit: cover;
+    filter: brightness(0.4); /* Oscurecemos el video 60% para que las letras blancas resalten */
+}
+
+/* Navbar estilo cristal para que combine con el video */
+.navbar-cristal {
+    background-color: rgba(26, 71, 49, 0.75) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Hacemos que los cuadros blancos (como el login) sean 5% transparentes */
+.container {
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(5px);
+}
+
+/* --- EXCEPCIÓN PARA LA GALERÍA --- */
+.container-galeria {
+    max-width: 1200px !important; /* Rompe el límite de 400px */
+    width: 90%; /* Ocupa casi toda la pantalla */
+}
+
+.foto-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    border-color: #4caf50 !important; /* El verde claro de tus botones */
+}

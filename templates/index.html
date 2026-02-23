@@ -4,67 +4,71 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Siembra+ - Panel de Monitoreo</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/LOGO SIEMBRA+.svg') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/estilo.css') }}">
 </head>
 <body class="pantalla-centrada">
+    <video autoplay muted loop class="video-fondo">
+        <source src="{{ url_for('static', filename='img/campo_1.mp4') }}" type="video/mp4">
+    </video>
 
-<div class="container">
-    <div class="header-actions">
-    {% if session['is_admin'] %}
-        <span class="badge-admin"> Admin</span>
-    {% endif %}
-    
-    <a href="{{ url_for('main.galeria') }}" class="btn-gallery-tiny">Ver Mis Capturas</a>
-    
-    <a href="{{ url_for('auth.logout') }}" class="btn-logout-tiny">Cerrar Sesión</a>
-</div>
-
-    <img src="{{ url_for('static', filename='img/siembra-logo.png') }}" alt="Siembra+" class="img-logo-dashboard">
-
-    <h2>Panel de Monitoreo</h2>
-    <p class="tagline">Sube las capturas de tus cultivos para el análisis</p>
-    
-    <form id="upload-form" action="{{ url_for('main.upload_file') }}" method="post" enctype="multipart/form-data">
-        <div class="form-group">
-            <label for="cultivo">Cultivo</label>
-            <select name="cultivo" id="cultivo" required>
-                <option value="" disabled selected>Selecciona un cultivo</option>
-                <option value="tomate">Tomate</option>
-                <option value="maiz">Maíz</option>
-                <option value="papa">Papa</option>
-            </select>
+    <div class="container">
+        <div class="header-actions">
+            {% if session.get('is_admin') %}
+                <span class="badge-admin">Admin</span>
+            {% endif %}
+            <a href="{{ url_for('main.galeria') }}" class="btn-gallery-tiny">Ver Galería</a>
+            <a href="{{ url_for('auth.logout') }}" class="btn-logout-tiny">Salir</a>
         </div>
 
-        <div class="form-group">
-            <label for="estado">Estado de Salud</label>
-            <select name="estado" id="estado" required>
-                <option value="" disabled selected>¿Qué observas?</option>
-                <option value="sano">Sano</option>
-                <option value="tizon_tardio">Tizón Tardío</option>
-                <option value="roya">Roya</option>
-                <option value="deficiencia_nutricional">Deficiencia Nutricional</option>
-            </select>
-        </div>
+        <img src="{{ url_for('static', filename='img/siembra-logo.png') }}" alt="Siembra+" class="img-logo-dashboard">
 
-        <div class="drop-zone" id="drop-zone">
-            <span class="drop-zone__prompt" id="file-info">Arrastra la imagen o haz clic</span>
-            <input type="file" name="file" class="drop-zone__input" id="file-input" accept="image/*" multiple required>
-        </div>
-
-        <div id="progress-wrapper" class="progress-wrapper">
-            <div class="progress-container">
-                <div id="progress-bar" class="progress-bar-fill"></div>
+        <h2>Panel de Monitoreo</h2>
+        <p class="tagline">Sube capturas para análisis de salud</p>
+        
+        <form id="upload-form" action="{{ url_for('main.upload_file') }}" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="cultivo">Tipo de Cultivo</label>
+                <select name="cultivo" id="cultivo" required>
+                    <option value="" disabled selected>Selecciona un cultivo</option>
+                    <option value="tomate">Tomate</option>
+                    <option value="maiz">Maíz</option>
+                    <option value="papa">Papa</option>
+                    <option value="frijol">Frijol</option>
+                    <option value="general">Otro / General</option>
+                </select>
             </div>
-            <p id="progress-text" class="progress-text">Subiendo: 0%</p>
+
+            <div class="form-group">
+                <label for="estado">Estado Observado</label>
+                <select name="estado" id="estado" required>
+                    <option value="" disabled selected>¿Qué observas?</option>
+                    <option value="sano">Sano</option>
+                    <option value="enfermo">Con indicios de enfermedad</option>
+                    <option value="plaga">Presencia de plagas</option>
+                    <option value="deficiencia">Deficiencia nutricional</option>
+                </select>
+            </div>
+
+            <div class="drop-zone" id="drop-zone">
+                <span class="drop-zone__prompt" id="file-info">Arrastra la imagen o haz clic</span>
+                <input type="file" name="file" class="drop-zone__input" id="file-input" accept="image/*" multiple required>
+            </div>
+
+            <div id="progress-wrapper" class="progress-wrapper" style="display: none;">
+                <div class="progress-container">
+                    <div id="progress-bar" class="progress-bar-fill"></div>
+                </div>
+                <p id="progress-text" class="progress-text">Subiendo: 0%</p>
+            </div>
+
+            <button type="submit" id="submit-btn" class="submit-btn">Enviar a Siembra+</button>
+        </form>
+
+        <div class="footer-dashboard">
+            Siembra+ - 2026
         </div>
-
-        <button type="submit" id="submit-btn" class="submit-btn">Enviar a Siembra+</button>
-    </form>
-
-    <div class="footer-dashboard">
-        Siembra+ - 2026
     </div>
-</div>
 
 <script>
     const fileInput = document.getElementById('file-input');
@@ -75,7 +79,6 @@
     const progressText = document.getElementById('progress-text');
     const submitBtn = document.getElementById('submit-btn');
 
-    // Feedback de archivos seleccionados
     fileInput.addEventListener('change', () => {
         const files = fileInput.files;
         if (files.length === 1) {
@@ -83,40 +86,33 @@
         } else if (files.length > 1) {
             fileInfo.innerText = `${files.length} archivos seleccionados`;
         } else {
-            fileInfo.innerText = "Arrastra la imagen del cultivo o haz clic";
+            fileInfo.innerText = "Arrastra la imagen o haz clic";
         }
     });
 
-    // Manejo de envío con barra de progreso
     uploadForm.addEventListener('submit', function(e) {
         e.preventDefault();
-        
         const formData = new FormData(this);
         const xhr = new XMLHttpRequest();
 
-        // Mostrar contenedor y preparar botón
         progressWrapper.style.display = 'block';
         submitBtn.disabled = true;
         submitBtn.innerText = "Procesando...";
 
-        // Monitor de progreso (Subida de datos)
         xhr.upload.addEventListener('progress', (e) => {
             if (e.lengthComputable) {
                 const percent = Math.round((e.loaded / e.total) * 100);
                 progressBar.style.width = percent + '%';
-                progressText.innerText = `Subiendo a la nube: ${percent}%`;
+                progressText.innerText = `Subiendo: ${percent}%`;
             }
         });
 
-        // Respuesta del servidor
         xhr.onload = function() {
             if (xhr.status === 200) {
-                // Inyectamos la respuesta de éxito (success.html)
-                document.open();
-                document.write(xhr.responseText);
-                document.close();
+                // Redirección directa para evitar problemas de re-renderizado
+                window.location.href = "{{ url_for('main.galeria') }}";
             } else {
-                alert("Error al subir los archivos. Inténtalo de nuevo.");
+                alert("Error en la conexión. Revisa el tamaño de los archivos.");
                 progressWrapper.style.display = 'none';
                 submitBtn.disabled = false;
                 submitBtn.innerText = "Enviar a Siembra+";
@@ -127,6 +123,5 @@
         xhr.send(formData);
     });
 </script>
-
 </body>
 </html>

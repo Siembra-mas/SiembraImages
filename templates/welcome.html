@@ -7,8 +7,11 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/estilo.css') }}">
 </head>
 <body class="pantalla-centrada">
+        <video autoplay muted loop class="video-fondo">
+        <source src="{{ url_for('static', filename='img/campo_1.mp4') }}" type="video/mp4">
+    </video>
     <div class="container">
-        <img src="{{ url_for('static', filename='img/siembra-logo.svg') }}" alt="Siembra+" class="img-logo">
+        <img src="{{ url_for('static', filename='img/siembra-logo.png') }}" alt="Siembra+" class="img-logo">
         <h2>Bienvenido a Siembra+</h2>
         <p class="tagline">Análisis inteligente para tus cultivos</p>
 
